@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Summarize Judgment - Forvyn AI</title>
+    <link rel="stylesheet" href="/static/styles.css?v=21">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        .summary-section { margin-bottom: 25px; }
+        .summary-section h4 { color: var(--primary-light); font-size: 14px; text-transform: uppercase; letter-spacing: 1px; margin: 0 0 10px 0; border-bottom: 1px solid var(--border); padding-bottom: 8px; }
+        .summary-section p { color: var(--text-main); font-size: 15px; line-height: 1.6; margin: 0; }
+        .summary-section ul { margin: 0; padding-left: 20px; color: var(--text-main); font-size: 15px; line-height: 1.6; }
+        .summary-section li { margin-bottom: 8px; }
+        .detail-row { display: flex; justify-content: space-between; border-bottom: 1px solid rgba(255,255,255,0.05); padding: 8px 0; font-size: 14px; }
+        .detail-row:last-child { border-bottom: none; }
+        .detail-label { color: var(--text-muted); }
+        .detail-value { color: var(--text-main); font-weight: 500; text-align: right; max-width: 60%; }
+        
+        .grid-layout { display: grid; grid-template-columns: 450px 1fr; gap: 25px; align-items: start; }
+        @media (max-width: 900px) { .grid-layout { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+    <div class="app">
+        <header style="justify-content: space-between; width: 100%;">
+            <div style="display: flex; align-items: center; gap: 20px;">
+                <div class="logo" style="cursor: pointer;" onclick="window.location.href='/'">Forvyn <span class="highlight">AI</span></div>
+            </div>
+            <a href="/" class="secondary-btn" style="text-decoration: none; display: flex; align-items: center; gap: 8px;">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 16px; height: 16px;">
+                    <line x1="19" y1="12" x2="5" y2="12"></line>
+                    <polyline points="12 19 5 12 12 5"></polyline>
+                </svg>
+                Back to Dashboard
+            </a>
+        </header>
+
+        <div style="margin-bottom: 20px; text-align: center; animation: fadeInDown 0.8s ease-out;">
+            <h2 style="font-size: 24px; text-transform: none; color: var(--text-main); margin-bottom: 10px; border: none; padding: 0;">Summarize Judgment</h2>
+            <p style="color: var(--text-muted); font-size: 16px; margin: 0;">Get structured summaries of court judgments with key legal insights</p>
+        </div>
+
+        <div class="grid-layout" style="animation: fadeIn 1s ease-out;">
+            <!-- Left Side: Input -->
+            <div class="card input-card">
+                <div class="form-group">
+                    <label>Summary Type</label>
+                    <select id="summaryType">
+                        <option value="brief">Brief Summary</option>
+                        <option value="standard" selected>Standard (Recommended)</option>
+                        <option value="detailed">Detailed Analysis</option>
+                        <option value="headnote">Headnote Format</option>
+                    </select>
+                </div>
+
+                <div class="file-upload-area" id="summarizeDropZone">
+                    <div class="upload-icon">📄</div>
+                    <p>Drop a file here or <strong>click to browse</strong></p>
+                    <p style="font-size: 12px; opacity: 0.6; margin-top: 4px;">Supports .txt, .pdf, .docx</p>
+                    <input type="file" id="summarizeFileInput" accept=".txt,.text,.pdf,.docx" style="display: none;">
+                </div>
+
+                <div class="or-divider">OR</div>
+
+                <div class="form-group" style="flex: 1; display: flex; flex-direction: column;">
+                    <label>Paste Judgment Text</label>
+                    <textarea id="judgmentInput" placeholder="Paste the full text of the court judgment here..."></textarea>
+                </div>
+
+                <button class="primary-btn" id="summarizeBtn" onclick="summarizeJudgment()" style="width: 100%;">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 18px; height: 18px; margin-right: 8px;">
+                        <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+                    </svg>
+                    Generate Summary
+                </button>
+            </div>
+
+            <!-- Right Side: Output -->
+            <div class="card" style="padding: 30px; min-height: 500px; display: flex; flex-direction: column;">
+                <!-- Loading State -->
+                <div id="loadingState" class="hidden" style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                    <div style="display: inline-block; width: 40px; height: 40px; border: 3px solid rgba(59, 130, 246, 0.3); border-radius: 50%; border-top-color: var(--primary); animation: spin 1s ease-in-out infinite;"></div>
+                    <p style="color: var(--text-muted); margin-top: 15px;">Analyzing legal text and structuring summary...</p>
+                </div>
+
+                <!-- Error State -->
+                <div id="errorState" class="hidden" style="padding: 20px; border-radius: 8px; border: 1px solid rgba(239, 68, 68, 0.3); background: rgba(239, 68, 68, 0.05); text-align: center; color: #fca5a5;">
+                    <p id="errorText">An error occurred.</p>
+                </div>
+
+                <!-- Empty State -->
+                <div id="emptyState" style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; color: var(--text-muted); text-align: center; padding: 40px;">
+                    <div style="font-size: 48px; margin-bottom: 20px; opacity: 0.5;">⚖️</div>
+                    <p>Your structured summary will appear here.</p>
+                </div>
+
+                <!-- Result Content -->
+                <div id="resultContent" class="hidden" style="flex: 1; overflow-y: auto; padding-right: 10px;">
+                    <!-- Metadata Header -->
+                    <div style="background: rgba(15, 23, 42, 0.6); padding: 20px; border-radius: 12px; margin-bottom: 25px; border: 1px solid var(--border);">
+                        <h3 id="caseTitle" style="color: var(--primary-light); margin-bottom: 15px; font-size: 18px;"></h3>
+                        <div class="detail-row"><span class="detail-label">Court</span><span class="detail-value" id="caseCourt"></span></div>
+                        <div class="detail-row"><span class="detail-label">Date</span><span class="detail-value" id="caseDate"></span></div>
+                        <div class="detail-row"><span class="detail-label">Judges</span><span class="detail-value" id="caseJudges"></span></div>
+                    </div>
+
+                    <div id="summarySections">
+                        <!-- Dynamically populated sections go here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="/static/legal.js?v=2"></script>
+    <script src="/static/chatbot.js?v=1"></script>
+</body>
+</html>

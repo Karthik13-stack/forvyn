@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Explain Legal Provision - Forvyn AI</title>
+    <link rel="stylesheet" href="/static/styles.css?v=21">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        .grid-layout { display: grid; grid-template-columns: 450px 1fr; gap: 25px; align-items: start; }
+        @media (max-width: 900px) { .grid-layout { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+    <div class="app">
+        <header style="justify-content: space-between; width: 100%;">
+            <div style="display: flex; align-items: center; gap: 20px;">
+                <div class="logo" style="cursor: pointer;" onclick="window.location.href='/'">Forvyn <span class="highlight">AI</span></div>
+            </div>
+            <a href="/" class="secondary-btn" style="text-decoration: none; display: flex; align-items: center; gap: 8px;">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 16px; height: 16px;">
+                    <line x1="19" y1="12" x2="5" y2="12"></line>
+                    <polyline points="12 19 5 12 12 5"></polyline>
+                </svg>
+                Back to Dashboard
+            </a>
+        </header>
+
+        <div style="margin-bottom: 20px; text-align: center; animation: fadeInDown 0.8s ease-out;">
+            <h2 style="font-size: 24px; text-transform: none; color: var(--text-main); margin-bottom: 10px; border: none; padding: 0;">Explain Legal Provision</h2>
+            <p style="color: var(--text-muted); font-size: 16px; margin: 0;">Get plain language explanations of complex legal provisions.</p>
+        </div>
+
+        <div class="grid-layout" style="animation: fadeIn 1s ease-out;">
+            <!-- Left Side: Input -->
+            <div class="card input-card">
+                <div class="file-upload-area" id="explainDropZone">
+                    <div class="upload-icon">📄</div>
+                    <p>Drop a file here or <strong>click to browse</strong></p>
+                    <p style="font-size: 12px; opacity: 0.6; margin-top: 4px;">Supports .txt, .pdf, .docx</p>
+                    <input type="file" id="explainFileInput" accept=".txt,.text,.pdf,.docx" style="display: none;">
+                </div>
+
+                <div class="or-divider">OR</div>
+
+                <div class="form-group" style="flex: 1; display: flex; flex-direction: column;">
+                    <label>Provision Text</label>
+                    <textarea id="provisionInput" placeholder="Paste the legal or statutory text you need explained..."></textarea>
+                </div>
+
+                <button class="primary-btn" id="explainBtn" onclick="explainProvision()" style="width: 100%;">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 18px; height: 18px; margin-right: 8px;">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <line x1="12" y1="16" x2="12" y2="12"></line>
+                        <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                    </svg>
+                    Explain in Plain English
+                </button>
+            </div>
+
+            <!-- Right Side: Output -->
+            <div class="card" style="padding: 30px; min-height: 400px; display: flex; flex-direction: column;">
+                <!-- Loading State -->
+                <div id="loadingState" class="hidden" style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                    <div style="display: inline-block; width: 40px; height: 40px; border: 3px solid rgba(59, 130, 246, 0.3); border-radius: 50%; border-top-color: var(--primary); animation: spin 1s ease-in-out infinite;"></div>
+                    <p style="color: var(--text-muted); margin-top: 15px;">Translating legalese...</p>
+                </div>
+
+                <!-- Error State -->
+                <div id="errorState" class="hidden" style="padding: 20px; border-radius: 8px; border: 1px solid rgba(239, 68, 68, 0.3); background: rgba(239, 68, 68, 0.05); text-align: center; color: #fca5a5;">
+                    <p id="errorText">An error occurred.</p>
+                </div>
+
+                <!-- Empty State -->
+                <div id="emptyState" style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; color: var(--text-muted); text-align: center; padding: 40px;">
+                    <div style="font-size: 48px; margin-bottom: 20px; opacity: 0.5;">💡</div>
+                    <p>The simplified explanation will appear here.</p>
+                </div>
+
+                <!-- Result Content -->
+                <div id="resultContent" class="hidden" style="flex: 1; overflow-y: auto; padding-right: 10px;">
+                    <div style="background: rgba(15, 23, 42, 0.6); padding: 20px; border-radius: 12px; margin-bottom: 25px; border: 1px solid var(--border);">
+                        <h4 style="color: var(--primary-light); font-size: 14px; text-transform: uppercase; letter-spacing: 1px; margin: 0 0 10px 0;">Summary</h4>
+                        <p id="explainSummary" style="color: var(--text-main); font-size: 15px; margin: 0; line-height: 1.6;"></p>
+                    </div>
+
+                    <div style="background: rgba(15, 23, 42, 0.6); padding: 20px; border-radius: 12px; margin-bottom: 25px; border: 1px solid var(--border);">
+                        <h4 style="color: var(--primary-light); font-size: 14px; text-transform: uppercase; letter-spacing: 1px; margin: 0 0 10px 0;">Key Points</h4>
+                        <ul id="explainPoints" style="color: var(--text-main); font-size: 15px; margin: 0; padding-left: 20px; line-height: 1.6;"></ul>
+                    </div>
+
+                    <div style="background: rgba(15, 23, 42, 0.6); padding: 20px; border-radius: 12px; border: 1px solid var(--border);">
+                        <h4 style="color: var(--primary-light); font-size: 14px; text-transform: uppercase; letter-spacing: 1px; margin: 0 0 10px 0;">Practical Examples</h4>
+                        <ul id="explainExamples" style="color: var(--text-main); font-size: 15px; margin: 0; padding-left: 20px; line-height: 1.6;"></ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="/static/legal.js?v=2"></script>
+    <script src="/static/chatbot.js?v=1"></script>
+</body>
+</html>

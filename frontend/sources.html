@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forvyn AI — Legal Sources</title>
+    <link rel="stylesheet" href="/static/styles.css?v=31">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app">
+        <header style="justify-content: space-between; width: 100%;">
+            <div style="display: flex; align-items: center; gap: 20px;">
+                <div class="logo" style="cursor: pointer;" onclick="window.location.href='/'">Forvyn <span class="highlight">AI</span></div>
+                <p>Manage legal source files and metadata</p>
+            </div>
+            <a href="/" class="secondary-btn" style="text-decoration: none; display: flex; align-items: center; gap: 8px;">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 16px; height: 16px;">
+                    <line x1="19" y1="12" x2="5" y2="12"></line>
+                    <polyline points="12 19 5 12 12 5"></polyline>
+                </svg>
+                Back to Dashboard
+            </a>
+        </header>
+
+        <div class="sources-shell">
+            <section class="card sources-manager-panel">
+                <div class="billing-hero" style="margin-bottom: 18px;">
+                    <div>
+                        <h1 style="margin: 0; border: none; padding: 0; text-transform: none; letter-spacing: normal;">Legal Sources</h1>
+                        <p class="billing-subtext">Upload PDFs, DOCX, TXT, and other files, then organize them with tags and notes.</p>
+                    </div>
+                    <div class="billing-meta">
+                        <span class="pill" id="sourceCountPill">0 sources</span>
+                        <span class="pill" id="storagePill">Storage: local</span>
+                    </div>
+                </div>
+
+                <div class="sources-upload-grid">
+                    <div class="card upload-card">
+                        <h2>Upload Source</h2>
+                        <form id="sourceUploadForm" class="profile-grid">
+                            <div class="form-group">
+                                <label for="sourceFile">File</label>
+                                <input id="sourceFile" name="file" type="file" required />
+                            </div>
+                            <div class="form-group">
+                                <label for="sourceType">Source Type</label>
+                                <input id="sourceType" name="source_type" type="text" placeholder="Case law, statute, contract template, note" />
+                            </div>
+                            <div class="form-group">
+                                <label for="sourceCategory">Category</label>
+                                <input id="sourceCategory" name="category" type="text" placeholder="Family Law, Contract Law, IP Law" />
+                            </div>
+                            <div class="form-group">
+                                <label for="sourceNotes">Notes</label>
+                                <textarea id="sourceNotes" name="notes" rows="4" placeholder="Add context, source quality, or usage notes."></textarea>
+                            </div>
+                            <button type="submit" class="primary-btn">Upload Source</button>
+                        </form>
+                        <p class="muted-note">This stores files locally on the server and keeps metadata in a JSON store, so the source library survives restarts.</p>
+                    </div>
+
+                    <div class="card details-card">
+                        <h2>Source Details</h2>
+                        <div id="sourceDetailEmpty" class="muted-note">Select a source to inspect metadata, preview, download, or delete.</div>
+                        <div id="sourceDetailView" class="hidden" style="display: grid; gap: 14px;">
+                            <div>
+                                <strong id="detailName"></strong>
+                                <div class="muted-note" id="detailMeta"></div>
+                            </div>
+                            <div class="muted-note" id="detailTags"></div>
+                            <div class="dynamic-section">
+                                <label>Preview</label>
+                                <div id="detailPreview" class="source-preview">Select a source to preview its contents.</div>
+                            </div>
+                            <div class="dynamic-section">
+                                <label for="detailNotes">Notes</label>
+                                <textarea id="detailNotes" rows="5"></textarea>
+                                <div class="billing-actions" style="margin-top: 12px;">
+                                    <button type="button" class="secondary-btn" id="saveNotesBtn">Save Notes</button>
+                                    <a href="#" class="secondary-btn link-btn" id="downloadBtn">Download</a>
+                                    <button type="button" class="secondary-btn" id="deleteBtn" style="border-color: rgba(239, 68, 68, 0.35); color: #fca5a5;">Delete</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <aside style="display: grid; gap: 18px; align-items: start;">
+                <section class="card sources-manager-panel">
+                    <div style="display: flex; justify-content: space-between; gap: 12px; align-items: center; margin-bottom: 16px;">
+                        <h2 style="margin-bottom: 0;">Library</h2>
+                        <input id="sourceSearch" type="search" placeholder="Search sources..." style="max-width: 240px;" />
+                    </div>
+                    <div id="sourceListEmpty" class="muted-note">No sources uploaded yet.</div>
+                    <div id="sourceList" class="source-list"></div>
+                </section>
+            </aside>
+        </div>
+    </div>
+
+    <script src="/static/sources.js?v=1"></script>
+    <script src="/static/chatbot.js?v=1"></script>
+</body>
+</html>

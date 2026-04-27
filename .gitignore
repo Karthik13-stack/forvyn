@@ -1,0 +1,18 @@
+.env
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+build/
+dist/
+*.egg-info/
+.pytest_cache/
+.coverage
+htmlcov/
+.DS_Store
+*.log
+Codebase B/
+desktop.ini
+archive/
+backend/app/services/storage/payment_history.json
+backend/app/storage/sources/

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Forvyn AI - Billing</title>
+    <link rel="stylesheet" href="/static/styles.css?v=22">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app">
+        <header>
+            <div class="logo" style="cursor: pointer;" onclick="window.location.href='/'">Forvyn <span class="highlight">AI</span></div>
+            <p>Subscriptions, dummy UPI checkout, and payment history</p>
+        </header>
+
+        <div class="billing-shell">
+            <section class="card billing-panel">
+                <div class="billing-hero">
+                    <div>
+                        <h1>Subscriptions & Billing</h1>
+                        <p class="billing-subtext">Choose a Lite or Premium subscription, pick monthly, quarterly, or annual billing, and use the dummy UPI flow to simulate payment for now.</p>
+                    </div>
+                    <div class="billing-meta">
+                        <span class="pill" id="merchantNamePill">Merchant: Loading...</span>
+                        <span class="pill" id="merchantUpiPill">UPI: loading...</span>
+                    </div>
+                </div>
+
+                <div class="profile-panel card" style="margin-bottom: 22px;">
+                    <h2>Billing Profile</h2>
+                    <form id="billingProfileForm" class="profile-grid">
+                        <div class="form-group">
+                            <label for="fullName">Full Name</label>
+                            <input id="fullName" type="text" placeholder="Enter your full name" required />
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input id="email" type="email" placeholder="name@example.com" required />
+                        </div>
+                    </form>
+                    <p class="muted-note">We use your email as the user key so your payment history stays attached to the same profile on this device.</p>
+                </div>
+
+                <div style="display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 18px; flex-wrap: wrap;">
+                    <h2 style="margin-bottom: 0;">Choose Your Plan</h2>
+                    <a href="/" class="secondary-btn link-btn">Back to Dashboard</a>
+                </div>
+                <div class="plan-grid" id="planGrid"></div>
+            </section>
+
+            <aside style="display: grid; gap: 24px; align-items: start;">
+                <section class="card history-panel">
+                    <h2>Your Checkout</h2>
+                    <div id="checkoutState" class="muted-note">Select a plan to start a dummy checkout.</div>
+                    <div id="checkoutCard" class="dynamic-section hidden" style="margin-top: 18px;">
+                        <div style="display: grid; gap: 10px; margin-bottom: 16px;">
+                            <div><strong>Selected Plan:</strong> <span id="selectedPlanLabel"></span></div>
+                            <div><strong>Amount:</strong> ₹<span id="selectedAmount"></span></div>
+                            <div><strong>Payment ID:</strong> <span id="selectedPaymentId"></span></div>
+                        </div>
+                        <div class="billing-actions">
+                            <button type="button" class="primary-btn" id="openUpiBtn">Open UPI</button>
+                            <button type="button" class="secondary-btn" id="copyUpiBtn">Copy UPI Link</button>
+                            <button type="button" class="secondary-btn" id="confirmPaymentBtn">Mark Paid (Dummy)</button>
+                        </div>
+                        <p class="muted-note" id="upiHint" style="margin-top: 14px;"></p>
+                    </div>
+                </section>
+
+                <section class="card history-panel">
+                    <h2>Payment History</h2>
+                    <div id="historyEmpty" class="muted-note">No payment history yet.</div>
+                    <div id="historyList" class="history-list"></div>
+                </section>
+            </aside>
+        </div>
+    </div>
+
+    <script src="/static/payment.js?v=1"></script>
+    <script src="/static/chatbot.js?v=1"></script>
+</body>
+</html>

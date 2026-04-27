@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>IPC to BNS Mapping - Forvyn AI</title>
+    <link rel="stylesheet" href="/static/styles.css?v=21">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app">
+        <header style="justify-content: space-between; width: 100%;">
+            <div style="display: flex; align-items: center; gap: 20px;">
+                <div class="logo" style="cursor: pointer;" onclick="window.location.href='/'">Forvyn <span class="highlight">AI</span></div>
+            </div>
+            <a href="/" class="secondary-btn" style="text-decoration: none; display: flex; align-items: center; gap: 8px;">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 16px; height: 16px;">
+                    <line x1="19" y1="12" x2="5" y2="12"></line>
+                    <polyline points="12 19 5 12 12 5"></polyline>
+                </svg>
+                Back to Dashboard
+            </a>
+        </header>
+
+        <div style="max-width: 800px; margin: 0 auto; width: 100%; animation: fadeInDown 0.8s ease-out;">
+            <div class="card" style="padding: 40px; margin-bottom: 30px;">
+                <h2 style="font-size: 24px; text-transform: none; color: var(--text-main); margin-bottom: 10px; border: none; padding: 0;">IPC to BNS Mapping</h2>
+                <p style="color: var(--text-muted); margin-bottom: 30px; font-size: 16px;">Convert Indian Penal Code sections to Bharatiya Nyaya Sanhita equivalents</p>
+                
+                <div class="form-group inline" style="margin-bottom: 0;">
+                    <input type="text" id="sectionInput" placeholder="Enter IPC Section (e.g., 302, 420)" style="flex: 1;" onkeypress="if(event.key === 'Enter') convertSection()">
+                    <button class="primary-btn" id="convertBtn" onclick="convertSection()" style="width: auto; padding: 16px 30px;">Search</button>
+                </div>
+            </div>
+
+            <!-- Loading State -->
+            <div id="loadingState" class="hidden" style="text-align: center; padding: 40px;">
+                <div style="display: inline-block; width: 40px; height: 40px; border: 3px solid rgba(59, 130, 246, 0.3); border-radius: 50%; border-top-color: var(--primary); animation: spin 1s ease-in-out infinite;"></div>
+                <p style="color: var(--text-muted); margin-top: 15px;">Searching database...</p>
+            </div>
+
+            <!-- Error State -->
+            <div id="errorState" class="card hidden" style="padding: 20px; border-color: rgba(239, 68, 68, 0.3); background: rgba(239, 68, 68, 0.05); text-align: center; color: #fca5a5;">
+                <p id="errorText">Error occurred.</p>
+            </div>
+
+            <!-- Result Card -->
+            <div id="resultContainer" class="card hidden" style="padding: 40px;">
+                <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 30px; padding-bottom: 20px; border-bottom: 1px solid var(--border);">
+                    <div style="display: flex; align-items: center; gap: 15px;">
+                        <span id="statusBadge" style="padding: 6px 12px; border-radius: 20px; font-size: 13px; font-weight: 600;">Status</span>
+                    </div>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-bottom: 30px;">
+                    <div style="background: rgba(0,0,0,0.2); padding: 20px; border-radius: 12px; border: 1px solid var(--border);">
+                        <p style="color: var(--text-muted); font-size: 13px; text-transform: uppercase; letter-spacing: 1px; margin: 0 0 10px 0;">IPC Section <span id="ipcNum"></span></p>
+                        <h3 id="ipcTitle" style="font-size: 18px; margin: 0; color: #a78bfa;"></h3>
+                    </div>
+
+                    <div style="background: rgba(0,0,0,0.2); padding: 20px; border-radius: 12px; border: 1px solid var(--border);">
+                        <p style="color: var(--text-muted); font-size: 13px; text-transform: uppercase; letter-spacing: 1px; margin: 0 0 10px 0;">BNS Section <span id="bnsNum"></span></p>
+                        <h3 id="bnsTitle" style="font-size: 18px; margin: 0; color: var(--success);"></h3>
+                    </div>
+                </div>
+
+                <div style="background: rgba(15, 23, 42, 0.6); padding: 20px; border-radius: 12px;">
+                    <h4 style="margin: 0 0 10px 0; color: var(--primary-light); font-size: 15px;">Key Changes</h4>
+                    <p id="changesSummary" style="margin: 0; color: var(--text-main); line-height: 1.6; font-size: 15px;"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <style>
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        .status-direct { background: rgba(16, 185, 129, 0.2); color: #6ee7b7; border: 1px solid rgba(16, 185, 129, 0.3); }
+        .status-partial { background: rgba(245, 158, 11, 0.2); color: #fcd34d; border: 1px solid rgba(245, 158, 11, 0.3); }
+        .status-repealed { background: rgba(239, 68, 68, 0.2); color: #fca5a5; border: 1px solid rgba(239, 68, 68, 0.3); }
+    </style>
+    
+    <script src="/static/legal.js?v=2"></script>
+    <script src="/static/chatbot.js?v=1"></script>
+</body>
+</html>

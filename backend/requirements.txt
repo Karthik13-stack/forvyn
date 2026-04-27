@@ -1,0 +1,27 @@
+fastapi
+uvicorn
+pydantic
+pydantic-settings
+python-dotenv
+requests
+
+# Gemini / LLM
+google-generativeai
+
+# Embeddings / RAG (if used)
+# sentence-transformers
+# faiss-cpu is optional and often unavailable on newer Python versions (e.g., 3.14)
+# faiss-cpu
+
+# Document handling
+python-docx
+reportlab
+
+# Data
+openpyxl
+
+# Optional / debugging
+tqdm
+
+python-multipart
+
