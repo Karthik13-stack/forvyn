@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Draft a legal document — Forvyn</title>
+    <meta name="description" content="Step-by-step legal document drafting. Select a domain, answer questions, then review, sign and download.">
+    <link rel="stylesheet" href="/static/styles.css?v=43">
+    <link rel="stylesheet" href="/static/legal.css?v=10">
+</head>
+<body data-page="draft">
+    <div data-shell="header"></div>
+
+    <main class="wrap">
+        <section class="page-head">
+            <a class="back-link" href="/tools"><span data-icon="arrow-left" data-size="16"></span>All tools</a>
+            <p class="eyebrow">Drafting</p>
+            <h1>Draft a legal document</h1>
+        </section>
+
+        <!-- Stepper -->
+        <div class="stepper-container">
+            <div class="stepper">
+                <div class="step-item active" id="step1-tab" onclick="navigateToStep(1)">
+                    <div class="step-circle">1</div>
+                    <div class="step-label">Select domain</div>
+                </div>
+                <div class="step-item" id="step2-tab" onclick="navigateToStep(2)">
+                    <div class="step-circle">2</div>
+                    <div class="step-label">Category &amp; document</div>
+                </div>
+                <div class="step-item" id="step3-tab" onclick="navigateToStep(3)">
+                    <div class="step-circle">3</div>
+                    <div class="step-label">Answer questions</div>
+                </div>
+                <div class="step-item" id="step4-tab" onclick="navigateToStep(4)">
+                    <div class="step-circle">4</div>
+                    <div class="step-label">Review &amp; download</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="main-content" style="max-width: 960px; margin: 0 auto;">
+
+            <!-- Step 1 -->
+            <div id="section1" class="draft-section active">
+                <div class="draft-section-header">
+                    <h2 class="draft-title">Select a legal domain</h2>
+                    <p class="draft-subtitle">Choose the area of law your document belongs to.</p>
+                </div>
+
+                <div class="domain-grid" id="domainGrid">
+                    <div class="domain-card" onclick="selectDomain('Family Law', this)" id="card-family">
+                        <div class="domain-icon" data-icon="users" data-size="28"></div>
+                        <h3>Family law</h3>
+                        <p>Marriage, divorce, custody, adoption</p>
+                    </div>
+                    <div class="domain-card" onclick="selectDomain('Contract Law', this)" id="card-contract">
+                        <div class="domain-icon" data-icon="draft" data-size="28"></div>
+                        <h3>Contract law</h3>
+                        <p>Agreements, loans, guarantees</p>
+                    </div>
+                    <div class="domain-card" onclick="selectDomain('Intellectual Property Law', this)" id="card-ip">
+                        <div class="domain-icon" data-icon="idea" data-size="28"></div>
+                        <h3>IP law</h3>
+                        <p>Trademarks, patents, copyrights</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 2 -->
+            <div id="section2" class="draft-section">
+                <div class="draft-section-header">
+                    <h2 class="draft-title">Category and document</h2>
+                    <p class="draft-subtitle">Choose the document type and the language it should be written in.</p>
+                </div>
+
+                <div class="card wizard-card">
+                    <div class="form-group">
+                        <label for="categorySelect">Legal category</label>
+                        <select id="categorySelect" onchange="loadDocuments()">
+                            <option value="">Select category</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="documentSelect">Document type</label>
+                        <select id="documentSelect">
+                            <option value="">Select document</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="languageSelect">Document language</label>
+                        <select id="languageSelect">
+                            <option value="English">English</option>
+                            <option value="Hindi">हिंदी (Hindi)</option>
+                            <option value="Tamil">தமிழ் (Tamil)</option>
+                            <option value="Telugu">తెలుగు (Telugu)</option>
+                            <option value="Marathi">मराठी (Marathi)</option>
+                            <option value="Bengali">বাংলা (Bengali)</option>
+                            <option value="Gujarati">ગુજરાતી (Gujarati)</option>
+                            <option value="Kannada">ಕನ್ನಡ (Kannada)</option>
+                            <option value="Malayalam">മലയാളം (Malayalam)</option>
+                            <option value="Punjabi">ਪੰਜਾਬੀ (Punjabi)</option>
+                            <option value="Odia">ଓଡ଼ିଆ (Odia)</option>
+                            <option value="Urdu">اردو (Urdu)</option>
+                        </select>
+                        <p class="hint">The document will be generated in the selected language.</p>
+                    </div>
+
+                    <div class="wizard-actions">
+                        <button class="secondary-btn" onclick="goToStep(1)">Back</button>
+                        <button class="primary-btn" onclick="generateQuestions()">Next: generate questions</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 3 -->
+            <div id="section3" class="draft-section">
+                <div class="draft-section-header">
+                    <h2 class="draft-title">Answer the questions</h2>
+                    <p class="draft-subtitle">The more specific your answers, the more complete the draft.</p>
+                </div>
+
+                <div id="questionsContainer"></div>
+
+                <div class="wizard-actions center">
+                    <button class="secondary-btn" onclick="goToStep(2)">Back</button>
+                    <button class="primary-btn" id="generateDocBtn" onclick="generateDocument()" style="flex: 0 1 280px;">Generate document</button>
+                </div>
+            </div>
+
+            <!-- Step 4 -->
+            <div id="section4" class="draft-section">
+                <div class="draft-section-header">
+                    <h2 class="draft-title">Your document</h2>
+                    <p class="draft-subtitle">Review and edit the text, add your signature, then download.</p>
+                </div>
+
+                <div class="lang-controls">
+                    <div class="lang-indicator">
+                        <span>Showing: <strong id="currentLanguage">English</strong></span>
+                        <button id="translateBtn" class="secondary-btn btn-sm" onclick="translateToEnglish()" style="display: none;">Show English</button>
+                    </div>
+                    <div class="lang-regenerate">
+                        <label for="docOutputLanguage">Regenerate in</label>
+                        <select id="docOutputLanguage">
+                            <option value="English">English</option>
+                            <option value="Hindi">हिंदी (Hindi)</option>
+                            <option value="Tamil">தமிழ் (Tamil)</option>
+                            <option value="Telugu">తెలుగు (Telugu)</option>
+                            <option value="Marathi">मराठी (Marathi)</option>
+                            <option value="Bengali">বাংলা (Bengali)</option>
+                            <option value="Gujarati">ગુજરાતી (Gujarati)</option>
+                            <option value="Kannada">ಕನ್ನಡ (Kannada)</option>
+                            <option value="Malayalam">മലയാളം (Malayalam)</option>
+                            <option value="Punjabi">ਪੰਜਾਬੀ (Punjabi)</option>
+                            <option value="Odia">ଓଡ଼ିଆ (Odia)</option>
+                            <option value="Urdu">اردو (Urdu)</option>
+                        </select>
+                        <button onclick="regenerateInLanguage()" class="primary-btn btn-sm">Regenerate</button>
+                    </div>
+                </div>
+
+                <div class="pleading">
+                    <textarea id="documentEditor" class="draft-editor" placeholder="Your document will appear here…" spellcheck="false"></textarea>
+                </div>
+
+                <div class="signature-section">
+                    <h3 class="signature-title"><span data-icon="pen" data-size="20"></span>Signature</h3>
+                    <div class="signature-canvas-wrap">
+                        <canvas id="signatureCanvas"></canvas>
+                    </div>
+                    <div class="signature-actions">
+                        <button class="secondary-btn btn-sm" onclick="clearSignature()">Clear</button>
+                        <button class="primary-btn btn-sm" onclick="saveSignature()">Save signature</button>
+                    </div>
+                    <div class="signature-preview" id="signaturePreview">
+                        <p>Signature saved.</p>
+                        <img id="signatureImage" src="" alt="Your signature">
+                    </div>
+                </div>
+
+                <div class="download-section">
+                    <p class="download-label">Download</p>
+                    <div class="download-buttons">
+                        <button class="download-btn" onclick="downloadPDF()" id="btn-download-pdf"><span data-icon="download" data-size="18"></span>PDF</button>
+                        <button class="download-btn" onclick="downloadDOCX()" id="btn-download-docx"><span data-icon="download" data-size="18"></span>DOCX</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <div data-shell="footer"></div>
+
+    <script src="/static/shell.js?v=3"></script>
+    <script src="/static/draft-app.js?v=3"></script>
+    <script src="/static/chatbot.js?v=2"></script>
+</body>
+</html>

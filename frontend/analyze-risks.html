@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analyze legal risks — Forvyn</title>
+    <link rel="stylesheet" href="/static/styles.css?v=43">
+    <link rel="stylesheet" href="/static/legal.css?v=10">
+</head>
+<body data-page="tools">
+    <div data-shell="header"></div>
+
+    <main class="wrap">
+        <section class="page-head">
+            <a class="back-link" href="/tools"><span data-icon="arrow-left" data-size="16"></span>All tools</a>
+            <p class="eyebrow">Analysis</p>
+            <h1>Analyze legal risks</h1>
+            <p class="lede">Find clauses that need human review. Each flag shows the exact text and why it was raised.</p>
+        </section>
+
+        <div class="tool-grid">
+            <section class="card input-card">
+                <div class="file-upload-area" id="dropZone">
+                    <span class="upload-icon" data-icon="upload" data-size="22"></span>
+                    <p>Drop a .txt file here or <strong>click to browse</strong></p>
+                    <input type="file" id="fileInput" accept=".txt,.text" style="display: none;">
+                </div>
+
+                <div class="or-divider">OR</div>
+
+                <div class="form-group">
+                    <label for="documentInput">Document text</label>
+                    <textarea id="documentInput" rows="10" placeholder="Paste your legal document content here for risk analysis..."></textarea>
+                </div>
+
+                <button class="primary-btn" id="analyzeBtn" onclick="analyzeRisks()">Analyze risks</button>
+            </section>
+
+            <section class="card output-card" aria-live="polite">
+                <div id="loadingState" class="state hidden">
+                    <div class="spinner"></div>
+                    <p>Scanning clauses&hellip;</p>
+                </div>
+
+                <div id="errorState" class="state-error hidden">
+                    <p id="errorText">An error occurred.</p>
+                </div>
+
+                <div id="emptyState" class="state state-empty">
+                    <div class="state-mark" data-icon="risk" data-size="22"></div>
+                    <p>Risk analysis results will appear here.</p>
+                    <p class="state-sub">Paste or upload a legal document to begin.</p>
+                </div>
+
+                <div id="resultContent" class="result hidden">
+                    <div class="risk-summary-bar" id="riskSummary"></div>
+                    <div id="risksList"></div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <div data-shell="footer"></div>
+
+    <script src="/static/shell.js?v=3"></script>
+    <script src="/static/legal.js?v=5"></script>
+    <script src="/static/chatbot.js?v=2"></script>
+</body>
+</html>

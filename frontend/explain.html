@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Explain a provision — Forvyn</title>
+    <link rel="stylesheet" href="/static/styles.css?v=43">
+    <link rel="stylesheet" href="/static/legal.css?v=10">
+</head>
+<body data-page="tools">
+    <div data-shell="header"></div>
+
+    <main class="wrap">
+        <section class="page-head">
+            <a class="back-link" href="/tools"><span data-icon="arrow-left" data-size="16"></span>All tools</a>
+            <p class="eyebrow">Research</p>
+            <h1>Explain a provision</h1>
+            <p class="lede">Paste statutory or contractual text, or upload a file, and get a plain-language explanation.</p>
+        </section>
+
+        <div class="tool-grid">
+            <section class="card input-card">
+                <div class="file-upload-area" id="explainDropZone">
+                    <span class="upload-icon" data-icon="upload" data-size="22"></span>
+                    <p>Drop a file here or <strong>click to browse</strong></p>
+                    <p class="upload-note">Supports .txt, .pdf, .docx</p>
+                    <input type="file" id="explainFileInput" accept=".txt,.text,.pdf,.docx" style="display: none;">
+                </div>
+
+                <div class="or-divider">OR</div>
+
+                <div class="form-group">
+                    <label for="provisionInput">Provision text</label>
+                    <textarea id="provisionInput" rows="9" placeholder="Paste the legal or statutory text you need explained..."></textarea>
+                </div>
+
+                <button class="primary-btn" id="explainBtn" onclick="explainProvision()">Explain in plain English</button>
+            </section>
+
+            <section class="card output-card" aria-live="polite">
+                <div id="loadingState" class="state hidden">
+                    <div class="spinner"></div>
+                    <p>Reading the provision&hellip;</p>
+                </div>
+
+                <div id="errorState" class="state-error hidden">
+                    <p id="errorText">An error occurred.</p>
+                </div>
+
+                <div id="emptyState" class="state state-empty">
+                    <div class="state-mark" data-icon="explain" data-size="22"></div>
+                    <p>The explanation will appear here.</p>
+                    <p class="state-sub">Summary, key points and practical examples.</p>
+                </div>
+
+                <div id="resultContent" class="result hidden">
+                    <div class="result-block">
+                        <h4>Summary</h4>
+                        <p id="explainSummary"></p>
+                    </div>
+                    <div class="result-block">
+                        <h4>Key points</h4>
+                        <ul id="explainPoints"></ul>
+                    </div>
+                    <div class="result-block">
+                        <h4>Practical examples</h4>
+                        <ul id="explainExamples"></ul>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <div data-shell="footer"></div>
+
+    <script src="/static/shell.js?v=3"></script>
+    <script src="/static/legal.js?v=5"></script>
+    <script src="/static/chatbot.js?v=2"></script>
+</body>
+</html>

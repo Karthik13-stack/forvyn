@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tools — Forvyn</title>
+    <link rel="stylesheet" href="/static/styles.css?v=43">
+    <link rel="stylesheet" href="/static/legal.css?v=10">
+</head>
+<body data-page="tools">
+    <div data-shell="header"></div>
+
+    <main class="wrap">
+        <section class="page-head">
+            <p class="eyebrow">Tools</p>
+            <h1>What do you need to do?</h1>
+            <p class="lede">Pick a tool below. Each one opens on its own page, and you can search or filter the list.</p>
+        </section>
+
+        <div class="toolbar">
+            <div class="search-field">
+                <span data-icon="search" data-size="18"></span>
+                <input type="search" id="toolSearch" placeholder="Search, for example contract, IPC or judgment" aria-label="Search tools">
+            </div>
+            <div class="filters" role="group" aria-label="Filter by category">
+                <button type="button" class="filter-btn is-active" data-filter="all">All</button>
+                <button type="button" class="filter-btn" data-filter="drafting">Drafting</button>
+                <button type="button" class="filter-btn" data-filter="analysis">Analysis</button>
+                <button type="button" class="filter-btn" data-filter="research">Research</button>
+                <button type="button" class="filter-btn" data-filter="account">Account</button>
+            </div>
+        </div>
+
+        <div class="docket" id="toolCards">
+            <div class="docket-head"><span>No.</span><span>Tool</span><span>What it does</span><span>Type</span><span></span></div>
+
+            <a class="docket-row" href="/draft" data-cat="drafting" data-keywords="contract agreement family divorce custody ip trademark patent copyright wizard document">
+                <span class="docket-no">1</span><span class="docket-title">Draft a document</span>
+                <span class="docket-desc">A four-step wizard that builds an editable draft from template clauses, with signature and PDF or DOCX export.</span>
+                <span class="docket-cat">Drafting</span><span class="docket-go" data-icon="arrow-right"></span>
+            </a>
+            <a class="docket-row" href="/analyze-risks" data-cat="analysis" data-keywords="risk liability review clause due diligence red flag">
+                <span class="docket-no">2</span><span class="docket-title">Check a document for risks</span>
+                <span class="docket-desc">Scan a document for clauses that need human review, with the flagged text and the reason shown together.</span>
+                <span class="docket-cat">Analysis</span><span class="docket-go" data-icon="arrow-right"></span>
+            </a>
+            <a class="docket-row" href="/explain" data-cat="research" data-keywords="explain provision statute section plain language">
+                <span class="docket-no">3</span><span class="docket-title">Understand a legal provision</span>
+                <span class="docket-desc">Plain-language explanations of statutory or contractual text, with key points and practical examples.</span>
+                <span class="docket-cat">Research</span><span class="docket-go" data-icon="arrow-right"></span>
+            </a>
+            <a class="docket-row" href="/mapping" data-cat="research" data-keywords="ipc bns penal code sanhita section map criminal concordance">
+                <span class="docket-no">4</span><span class="docket-title">Find the BNS section for an IPC section</span>
+                <span class="docket-desc">Find the Bharatiya Nyaya Sanhita equivalent of an Indian Penal Code section and what changed.</span>
+                <span class="docket-cat">Research</span><span class="docket-go" data-icon="arrow-right"></span>
+            </a>
+            <a class="docket-row" href="/summarize" data-cat="analysis" data-keywords="judgment judgement court case ratio holding order summary">
+                <span class="docket-no">5</span><span class="docket-title">Summarize a court judgment</span>
+                <span class="docket-desc">Structured summaries covering facts, issues, arguments, ratio decidendi and the final order.</span>
+                <span class="docket-cat">Analysis</span><span class="docket-go" data-icon="arrow-right"></span>
+            </a>
+            <a class="docket-row" href="/sources" data-cat="research" data-keywords="sources library upload files pdf docx notes tags">
+                <span class="docket-no">6</span><span class="docket-title">Keep your legal sources</span>
+                <span class="docket-desc">Upload source files, add notes and categories, preview contents and keep your library in one place.</span>
+                <span class="docket-cat">Research</span><span class="docket-go" data-icon="arrow-right"></span>
+            </a>
+            <a class="docket-row" href="/billing" data-cat="account" data-keywords="billing plans subscription payment upi lite premium">
+                <span class="docket-no">7</span><span class="docket-title">Plans &amp; billing</span>
+                <span class="docket-desc">Compare Lite and Premium plans, check out with the test UPI flow and review your payment history.</span>
+                <span class="docket-cat">Account</span><span class="docket-go" data-icon="arrow-right"></span>
+            </a>
+            <a class="docket-row" href="/workspace" data-cat="account" data-keywords="workspace profile account overview">
+                <span class="docket-no">8</span><span class="docket-title">Your workspace</span>
+                <span class="docket-desc">Your profile, plan status, saved sources and quick links to the tools you use most.</span>
+                <span class="docket-cat">Account</span><span class="docket-go" data-icon="arrow-right"></span>
+            </a>
+        </div>
+
+        <p class="tool-empty hidden" id="toolEmpty">No tools match that search.</p>
+
+        <aside class="assist-note">
+            <div>
+                <h3>Not sure where to start?</h3>
+                <p>Tell the assistant what you are trying to do and it will point you to the right tool.</p>
+            </div>
+            <button type="button" class="btn btn-secondary" id="askAssistant">Ask the assistant</button>
+        </aside>
+    </main>
+
+    <div data-shell="footer"></div>
+
+    <script src="/static/shell.js?v=3"></script>
+    <script>
+        (function () {
+            var rows = Array.prototype.slice.call(document.querySelectorAll('#toolCards .docket-row'));
+            var search = document.getElementById('toolSearch');
+            var empty = document.getElementById('toolEmpty');
+            var filterBtns = document.querySelectorAll('.filter-btn');
+            var cat = 'all';
+
+            function apply() {
+                var q = search.value.trim().toLowerCase();
+                var shown = 0;
+                rows.forEach(function (row) {
+                    var hay = (row.textContent + ' ' + (row.getAttribute('data-keywords') || '')).toLowerCase();
+                    var ok = (cat === 'all' || row.getAttribute('data-cat') === cat) && (!q || hay.indexOf(q) !== -1);
+                    row.classList.toggle('hidden', !ok);
+                    if (ok) shown++;
+                });
+                empty.classList.toggle('hidden', shown !== 0);
+            }
+
+            search.addEventListener('input', apply);
+            filterBtns.forEach(function (btn) {
+                btn.addEventListener('click', function () {
+                    cat = btn.getAttribute('data-filter');
+                    filterBtns.forEach(function (b) { b.classList.toggle('is-active', b === btn); });
+                    apply();
+                });
+            });
+
+            document.getElementById('askAssistant').addEventListener('click', function () {
+                var toggle = document.getElementById('chatbotToggle');
+                if (toggle && !document.getElementById('chatbotWindow').classList.contains('open')) toggle.click();
+            });
+        })();
+    </script>
+    <script src="/static/chatbot.js?v=2"></script>
+</body>
+</html>

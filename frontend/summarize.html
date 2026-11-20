@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Summarize a judgment — Forvyn</title>
+    <link rel="stylesheet" href="/static/styles.css?v=43">
+    <link rel="stylesheet" href="/static/legal.css?v=10">
+</head>
+<body data-page="tools">
+    <div data-shell="header"></div>
+
+    <main class="wrap">
+        <section class="page-head">
+            <a class="back-link" href="/tools"><span data-icon="arrow-left" data-size="16"></span>All tools</a>
+            <p class="eyebrow">Analysis</p>
+            <h1>Summarize a judgment</h1>
+            <p class="lede">Turn a long court judgment into a structured summary: facts, issues, arguments, ratio and order.</p>
+        </section>
+
+        <div class="tool-grid">
+            <section class="card input-card">
+                <div class="form-group">
+                    <label for="summaryType">Summary type</label>
+                    <select id="summaryType">
+                        <option value="brief">Brief summary</option>
+                        <option value="standard" selected>Standard (recommended)</option>
+                        <option value="detailed">Detailed analysis</option>
+                        <option value="headnote">Headnote format</option>
+                    </select>
+                </div>
+
+                <div class="file-upload-area" id="summarizeDropZone">
+                    <span class="upload-icon" data-icon="upload" data-size="22"></span>
+                    <p>Drop a file here or <strong>click to browse</strong></p>
+                    <p class="upload-note">Supports .txt, .pdf, .docx</p>
+                    <input type="file" id="summarizeFileInput" accept=".txt,.text,.pdf,.docx" style="display: none;">
+                </div>
+
+                <div class="or-divider">OR</div>
+
+                <div class="form-group">
+                    <label for="judgmentInput">Judgment text</label>
+                    <textarea id="judgmentInput" rows="9" placeholder="Paste the full text of the court judgment here..."></textarea>
+                </div>
+
+                <button class="primary-btn" id="summarizeBtn" onclick="summarizeJudgment()">Generate summary</button>
+            </section>
+
+            <section class="card output-card" aria-live="polite">
+                <div id="loadingState" class="state hidden">
+                    <div class="spinner"></div>
+                    <p>Reading the judgment and structuring the summary&hellip;</p>
+                </div>
+
+                <div id="errorState" class="state-error hidden">
+                    <p id="errorText">An error occurred.</p>
+                </div>
+
+                <div id="emptyState" class="state state-empty">
+                    <div class="state-mark" data-icon="gavel" data-size="22"></div>
+                    <p>Your structured summary will appear here.</p>
+                </div>
+
+                <div id="resultContent" class="result hidden">
+                    <div class="case-head">
+                        <h3 id="caseTitle"></h3>
+                        <div class="detail-row"><span class="detail-label">Court</span><span class="detail-value" id="caseCourt"></span></div>
+                        <div class="detail-row"><span class="detail-label">Date</span><span class="detail-value" id="caseDate"></span></div>
+                        <div class="detail-row"><span class="detail-label">Judges</span><span class="detail-value" id="caseJudges"></span></div>
+                    </div>
+                    <div id="summarySections"></div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <div data-shell="footer"></div>
+
+    <script src="/static/shell.js?v=3"></script>
+    <script src="/static/legal.js?v=5"></script>
+    <script src="/static/chatbot.js?v=2"></script>
+</body>
+</html>

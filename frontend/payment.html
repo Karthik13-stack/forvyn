@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plans &amp; billing — Forvyn</title>
+    <link rel="stylesheet" href="/static/styles.css?v=43">
+    <link rel="stylesheet" href="/static/legal.css?v=10">
+</head>
+<body data-page="billing">
+    <div data-shell="header"></div>
+
+    <main class="wrap">
+        <section class="page-head">
+            <a class="back-link" href="/tools"><span data-icon="arrow-left" data-size="16"></span>All tools</a>
+            <p class="eyebrow">Account</p>
+            <h1>Plans &amp; billing</h1>
+            <p class="lede">Choose Lite or Premium and a billing cycle. Checkout uses a test UPI flow, so no real payment is taken.</p>
+        </section>
+
+        <div class="billing-shell">
+            <section>
+                <div class="card" style="margin-bottom: 24px;">
+                    <div class="billing-hero" style="margin-bottom: 18px;">
+                        <h2 class="panel-title" style="margin: 0;">Billing profile</h2>
+                        <div class="billing-meta">
+                            <span class="pill" id="merchantNamePill">Merchant: loading</span>
+                            <span class="pill" id="merchantUpiPill">UPI: loading</span>
+                        </div>
+                    </div>
+                    <form id="billingProfileForm" class="profile-grid">
+                        <div class="form-group">
+                            <label for="fullName">Full name</label>
+                            <input id="fullName" type="text" placeholder="Enter your full name" required />
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input id="email" type="email" placeholder="name@example.com" required />
+                        </div>
+                    </form>
+                    <p class="muted-note">Your email is used as the user key, so payment history stays attached to the same profile on this device.</p>
+                </div>
+
+                <h2 class="panel-title">Choose a plan</h2>
+                <div class="plan-grid" id="planGrid"></div>
+            </section>
+
+            <aside style="display: grid; gap: 24px; align-items: start;">
+                <section class="card">
+                    <h2 class="panel-title">Checkout</h2>
+                    <div id="checkoutState" class="muted-note">Select a plan to start a test checkout.</div>
+                    <div id="checkoutCard" class="dynamic-section hidden" style="margin-top: 16px;">
+                        <div class="checkout-lines">
+                            <div><strong>Selected plan:</strong> <span id="selectedPlanLabel"></span></div>
+                            <div><strong>Amount:</strong> ₹<span id="selectedAmount"></span></div>
+                            <div><strong>Payment ID:</strong> <span class="mono" id="selectedPaymentId"></span></div>
+                        </div>
+                        <div class="billing-actions">
+                            <button type="button" class="primary-btn" id="openUpiBtn">Open UPI</button>
+                            <button type="button" class="secondary-btn" id="copyUpiBtn">Copy UPI link</button>
+                            <button type="button" class="secondary-btn" id="confirmPaymentBtn">Mark paid (test)</button>
+                        </div>
+                        <p class="muted-note" id="upiHint" style="margin-top: 14px;"></p>
+                    </div>
+                </section>
+
+                <section class="card">
+                    <h2 class="panel-title">Payment history</h2>
+                    <div id="historyEmpty" class="muted-note">No payment history yet.</div>
+                    <div id="historyList" class="history-list"></div>
+                </section>
+            </aside>
+        </div>
+    </main>
+
+    <div data-shell="footer"></div>
+
+    <script src="/static/shell.js?v=3"></script>
+    <script src="/static/payment.js?v=2"></script>
+    <script src="/static/chatbot.js?v=2"></script>
+</body>
+</html>

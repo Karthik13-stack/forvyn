@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Workspace — Forvyn</title>
+    <link rel="stylesheet" href="/static/styles.css?v=43">
+    <link rel="stylesheet" href="/static/legal.css?v=10">
+</head>
+<body data-page="workspace">
+    <div data-shell="header"></div>
+
+    <main class="wrap">
+        <section class="page-head">
+            <p class="eyebrow">Account</p>
+            <h1 id="wsGreeting">Your workspace</h1>
+            <p class="lede">Your profile, plan activity and saved sources, kept on this device and this server.</p>
+        </section>
+
+        <div class="ws-grid">
+            <div class="ws-stack">
+                <section class="panel">
+                    <div class="ws-profile">
+                        <div class="ws-avatar" id="wsAvatar" aria-hidden="true">&sect;</div>
+                        <div>
+                            <h2 id="wsName">No profile yet</h2>
+                            <p id="wsEmail">Add your details on the billing page.</p>
+                        </div>
+                    </div>
+                    <dl class="kv">
+                        <div class="kv-row"><dt>Latest plan</dt><dd id="wsPlan">None</dd></div>
+                        <div class="kv-row"><dt>Payments recorded</dt><dd id="wsPayments">0</dd></div>
+                        <div class="kv-row"><dt>Legal sources saved</dt><dd id="wsSources">0</dd></div>
+                    </dl>
+                    <p class="muted-note" style="margin-top:14px">Profile details are stored in this browser. Payment history is looked up by your email.</p>
+                    <div style="margin-top:16px"><a class="btn btn-secondary btn-sm" href="/billing">Edit profile</a></div>
+                </section>
+
+                <section class="panel">
+                    <div class="panel-head"><h2>Quick access</h2></div>
+                    <div class="quick-grid">
+                        <a class="quick-link" href="/draft"><span data-icon="draft"></span>Draft a document</a>
+                        <a class="quick-link" href="/analyze-risks"><span data-icon="risk"></span>Analyze risks</a>
+                        <a class="quick-link" href="/explain"><span data-icon="explain"></span>Explain a provision</a>
+                        <a class="quick-link" href="/mapping"><span data-icon="mapping"></span>IPC to BNS</a>
+                        <a class="quick-link" href="/summarize"><span data-icon="gavel"></span>Summarize judgment</a>
+                        <a class="quick-link" href="/sources"><span data-icon="folder"></span>Legal sources</a>
+                    </div>
+                </section>
+            </div>
+
+            <div class="ws-stack">
+                <section class="panel">
+                    <div class="panel-head"><h2>Recent sources</h2><a href="/sources">Open library</a></div>
+                    <div id="wsSourceEmpty" class="muted-note">No sources uploaded yet.</div>
+                    <div id="wsSourceList" class="source-list"></div>
+                </section>
+
+                <section class="panel">
+                    <div class="panel-head"><h2>Payment history</h2><a href="/billing">Manage plan</a></div>
+                    <div id="wsHistoryEmpty" class="muted-note">No payment history yet.</div>
+                    <div id="wsHistoryList" class="history-list"></div>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <div data-shell="footer"></div>
+
+    <script src="/static/shell.js?v=3"></script>
+    <script src="/static/workspace.js?v=1"></script>
+    <script src="/static/chatbot.js?v=2"></script>
+</body>
+</html>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IPC to BNS mapping — Forvyn</title>
+    <link rel="stylesheet" href="/static/styles.css?v=43">
+    <link rel="stylesheet" href="/static/legal.css?v=10">
+</head>
+<body data-page="tools">
+    <div data-shell="header"></div>
+
+    <main class="wrap">
+        <section class="page-head">
+            <a class="back-link" href="/tools"><span data-icon="arrow-left" data-size="16"></span>All tools</a>
+            <p class="eyebrow">Research</p>
+            <h1>IPC to BNS mapping</h1>
+            <p class="lede">Enter an Indian Penal Code section to see its Bharatiya Nyaya Sanhita equivalent and what changed.</p>
+        </section>
+
+        <div class="tool-narrow">
+            <section class="card" style="margin-bottom: 24px;">
+                <label for="sectionInput">IPC section number</label>
+                <div class="search-row">
+                    <input type="text" id="sectionInput" placeholder="e.g. 302 or 420" onkeypress="if(event.key === 'Enter') convertSection()">
+                    <button class="primary-btn" id="convertBtn" onclick="convertSection()">Search</button>
+                </div>
+            </section>
+
+            <div id="loadingState" class="state hidden" style="padding: 40px 0;">
+                <div class="spinner"></div>
+                <p>Searching the mapping table&hellip;</p>
+            </div>
+
+            <div id="errorState" class="state-error hidden">
+                <p id="errorText">Error occurred.</p>
+            </div>
+
+            <section id="resultContainer" class="card hidden">
+                <div class="mapping-top">
+                    <span id="statusBadge">Status</span>
+                </div>
+
+                <div class="mapping-pair">
+                    <div class="mapping-side">
+                        <p class="ref">IPC section <span id="ipcNum"></span></p>
+                        <h3 id="ipcTitle"></h3>
+                    </div>
+                    <div class="mapping-arrow" data-icon="arrow-right" data-size="22"></div>
+                    <div class="mapping-side">
+                        <p class="ref">BNS section <span id="bnsNum"></span></p>
+                        <h3 id="bnsTitle"></h3>
+                    </div>
+                </div>
+
+                <div class="result-block">
+                    <h4>Key changes</h4>
+                    <p id="changesSummary"></p>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <div data-shell="footer"></div>
+
+    <script src="/static/shell.js?v=3"></script>
+    <script src="/static/legal.js?v=5"></script>
+    <script src="/static/chatbot.js?v=2"></script>
+</body>
+</html>
